@@ -5,9 +5,6 @@ try:
 except ImportError:
     from m1_pesanan import ArrayPesanan
 
-
-# Penghubung agar M2 bisa memakai struktur ArrayPesanan dari M1,
-# meskipun nama metode M1 berbeda dari append/get/delete.
 def array_tambah(array, nilai):
     if array.size == array.capacity:
         array._resize(array.capacity * 2)
@@ -86,7 +83,6 @@ class Stack:
 
 
 class AntreanNaif:
-    """Antrean array naif: dequeue menggeser elemen, sehingga O(n)."""
     def __init__(self):
         self.data = ArrayPesanan()
         self.total_geseran = 0
@@ -518,16 +514,12 @@ def muat_pesanan_csv(nama_file):
 
 
 def tampilkan_postfix_pesanan(pesanan):
-    # Data CSV berbentuk list kolom:
-    # oid, pelanggan, resto, menu, harga, prioritas, t_masuk, t_selesai, status
     harga = int(pesanan[4])
     oid = pesanan[0]
     pelanggan = pesanan[1]
     resto = pesanan[2]
     menu = pesanan[3]
 
-    # CSV hanya menyimpan total harga per menu, bukan jumlah item.
-    # Jadi 1 * harga menunjukkan perhitungan harga pesanan pertama.
     ekspresi = "( 1 * " + str(harga) + " )"
 
     print("\n=== KASIR STACK DARI DATA CSV ===")
@@ -543,8 +535,6 @@ def tampilkan_postfix_pesanan(pesanan):
 if __name__ == "__main__":
     import os
 
-    # Lokasi CSV dihitung dari folder file ini:
-    # Strukdat/Backend/m2_antrean.py -> Strukdat/data/pesanan.csv
     folder_backend = os.path.dirname(os.path.abspath(__file__))
     lokasi_csv = os.path.normpath(
         os.path.join(folder_backend, "..", "data", "pesanan.csv")
@@ -561,7 +551,6 @@ if __name__ == "__main__":
     print("CSV:", lokasi_csv)
     print("Jumlah pesanan terbaca:", data_csv.size)
 
-    # Pilih pesanan pertama yang masih ANTRE dan harga valid.
     pesanan_aktif = None
     for i in range(data_csv.size):
         baris = array_get(data_csv, i)
@@ -582,13 +571,24 @@ if __name__ == "__main__":
         tampilkan_postfix_pesanan(pesanan_aktif)
 
     print("\n=== 2. QUEUE + UNDO/REDO ===")
+
     m = ManajerUndoRedo()
+    jumlah_masuk = 0
+
     for i in range(data_csv.size):
         baris = array_get(data_csv, i)
-        if baris is not None and len(baris) > 0:
-            m.enqueue(baris[0])
 
-    print("Data antrean dimuat dari CSV:", data_csv.size, "pesanan")
+        if baris is None or len(baris) <= 8:
+            continue
+
+        status = str(baris[8]).strip().upper()
+
+        if status == "ANTRE":
+            m.enqueue(baris[0])
+            jumlah_masuk += 1
+
+    print("Jumlah pesanan aktif masuk antrean:", jumlah_masuk)
+
     keluar, waktu_naif, waktu_circular = m.dequeue(2)
     print("Pesanan yang di-dequeue:", keluar)
     print("Waktu antrean naif:", round(waktu_naif, 4), "ms")

@@ -1,4 +1,3 @@
-
 import csv
 
 class Node:
@@ -19,20 +18,17 @@ class ArrayPesanan:
         self.capacity = new_capacity
 
     def lihat(self, index):
-        """O(1) Access"""
         if index < 0 or index >= self.size:
             return None
         return self.data[index]
 
     def tambah_reguler(self, pesanan):
-        """Masuk paling belakang -> O(1) Amortized"""
         if self.size == self.capacity:
             self._resize(self.capacity * 2)
         self.data[self.size] = pesanan
         self.size += 1
 
     def tambah_prioritas(self, pesanan):
-        """Menyerobot ke tengah barisan (index size // 2) -> O(n) karena geser"""
         if self.size == self.capacity:
             self._resize(self.capacity * 2)
         
@@ -45,11 +41,9 @@ class ArrayPesanan:
         self.size += 1
 
     def tambah_vip(self, pesanan):
-        """Langsung ke urutan paling depan (index 0) -> O(n) karena geser seluruhnya"""
         if self.size == self.capacity:
             self._resize(self.capacity * 2)
             
-        # Geser seluruh elemen ke kanan
         for i in range(self.size, 0, -1):
             self.data[i] = self.data[i - 1]
             
@@ -57,7 +51,6 @@ class ArrayPesanan:
         self.size += 1
 
     def hapus(self, index):
-        """Hapus pesanan ke-i -> O(n) karena geser elemen ke kiri"""
         if index < 0 or index >= self.size:
             return None
         
@@ -77,7 +70,6 @@ class LinkedListPesanan:
         self.size = 0
 
     def lihat(self, index):
-        """Buka detail pesanan ke-i -> O(n) telusur dari head"""
         if index < 0 or index >= self.size:
             return None
         
@@ -87,7 +79,6 @@ class LinkedListPesanan:
         return curr.data
 
     def tambah_reguler(self, pesanan):
-        """Masuk paling belakang -> O(1) memakai pointer Tail"""
         new_node = Node(pesanan)
         if self.head is None:
             self.head = new_node
@@ -98,7 +89,6 @@ class LinkedListPesanan:
         self.size += 1
 
     def tambah_prioritas(self, pesanan):
-        """Menyerobot ke tengah barisan -> O(n) telusur ke n/2 lalu sambungkan node"""
         if self.size == 0 or self.size == 1:
             self.tambah_vip(pesanan)
             return
@@ -115,7 +105,6 @@ class LinkedListPesanan:
         self.size += 1
 
     def tambah_vip(self, pesanan):
-        """Langsung ke urutan pertama -> O(1) ubah pointer head"""
         new_node = Node(pesanan)
         if self.head is None:
             self.head = new_node
@@ -126,7 +115,6 @@ class LinkedListPesanan:
         self.size += 1
 
     def hapus(self, index):
-        """Hapus pesanan ke-i -> O(n) telusur ke index sebelum yang dihapus"""
         if index < 0 or index >= self.size or self.head is None:
             return None
 

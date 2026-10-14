@@ -87,7 +87,6 @@ def salin_data(data):
             curr = curr.next
         return hasil
 
-    # Antrean M2: dukung objek dengan size() dan get(i).
     if hasattr(data, "size") and callable(data.size) and hasattr(data, "get"):
         for i in range(data.size()):
             hasil.append(data.get(i))
@@ -222,7 +221,6 @@ def binary_search(larik_terurut, target, kunci="oid"):
             waktu_ms = (time.perf_counter() - mulai) * 1000
             return mid, perbandingan, waktu_ms
 
-        # Untuk kunci numerik, bandingkan sebagai angka; kunci teks sebagai teks.
         if isinstance(nilai, int):
             try:
                 target_banding = int(float(target_teks))
@@ -381,8 +379,7 @@ def main():
     lokasi_csv = os.path.normpath(
         os.path.join(folder_backend, "..", "data", "pesanan.csv")
     )
-    # Fallback untuk pengujian jika file ini dijalankan dari folder yang sudah
-    # sejajar dengan folder data.
+
     if not os.path.exists(lokasi_csv):
         lokasi_alternatif = os.path.join(folder_backend, "data", "pesanan.csv")
         if os.path.exists(lokasi_alternatif):
@@ -421,7 +418,6 @@ def main():
     except ValueError as error:
         print("Insertion sort:", error)
 
-    # 2. Merge sort: mampu mengurutkan seluruh data CSV.
     hasil_merge, banding_merge, pindah_merge, ms_merge = laporan.merge(
         kunci="selesai"
     )
@@ -431,7 +427,6 @@ def main():
     print("Pemindahan:", pindah_merge)
     print("Waktu:", format_ms(ms_merge))
 
-    # 3. Linear search: cari ID pesanan pertama yang benar-benar ada di CSV.
     target = data[0][0]
     pesanan, indeks, banding_linear, ms_linear = laporan.linear(target, "oid")
     print("\n=== 3. LINEAR SEARCH ===")
@@ -441,7 +436,6 @@ def main():
     print("Waktu:", format_ms(ms_linear))
     print("Pesanan:", pesanan)
 
-    # 4. Binary search: data diurutkan berdasarkan oid terlebih dahulu.
     pesanan, indeks, banding_sort, banding_binary, ms_sort, ms_binary = laporan.binary(
         target, "oid"
     )
@@ -454,7 +448,6 @@ def main():
     print("Waktu binary search:", format_ms(ms_binary))
     print("Pesanan:", pesanan)
 
-    # Ringkasan perbandingan agar hasil algoritma mudah dibaca.
     print("\n=== RINGKASAN M3 ===")
     print("Insertion sort :", banding, "perbandingan untuk", jumlah_uji, "data")
     print("Merge sort     :", banding_merge, "perbandingan untuk", len(data), "data")
