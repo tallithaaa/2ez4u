@@ -44,4 +44,8 @@ Strukdat/
 ├── README.md
 └── .gitignore
 
-![alt text](image.png)
+Dokumentasi
+<img width="2856" height="1646" alt="image" src="https://github.com/user-attachments/assets/c13874d1-f036-4faa-9d85-665b241280b8" />
+<img width="2866" height="1642" alt="image" src="https://github.com/user-attachments/assets/6a2dc050-561f-400a-b327-2a0a4a3df031" />
+<img width="2860" height="1626" alt="image" src="https://github.com/user-attachments/assets/60ee6d1b-abbc-47e6-822c-eb6faa033385" />
+<img width="2870" height="1634" alt="image" src="https://github.com/user-attachments/assets/98136373-530c-40ea-9d2c-ac9680e78caa" />
